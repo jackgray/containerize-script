@@ -4,13 +4,12 @@
 
 # TODO: add all scripts to github to be searched and pulled given appropriate input argument
 
-# Assign input arguments
-verbose=$2
+# make 2nd input argument 'TRUE' to troubleshoot
+verbose=$2 
  
 # SETUP
 CURRENT_DIR=$(pwd)
 PATH_TO_SCRIPT="$CURRENT_DIR/$1"
-CONTAINER_DIR=/container
 SCRIPT_NAME=$1
 BASE_IMAGE=bash:4.4
 # removes extension for file being containerized
@@ -30,15 +29,6 @@ then
 printf "Name of container:\n'%s'\n\n" "$CONTAINER_NAME"
 fi
 
-install_drivers(){
-    docker plugin install --grant-all-permissions vieux/sshfs
-}
-
-create_volume(){
-    docker volume create --driver vieux/sshfs \
-
-}
-
 # make Dockerfile path stdin - leave no trace
 # IMPORTANT: buildkit MUST be used for file-less (stdin) context passing
 #            for CMD to execute on run
@@ -54,7 +44,6 @@ EOF
 
 docker_run(){
     echo "Binding output from container volume to local working directory."
-    
     docker run --rm -d \
     --name shellname \
     --mount type=bind,source="$(pwd)",target=/app \
@@ -62,7 +51,6 @@ docker_run(){
 }
 
 containerize(){
-    #create_volume
     docker_build
     docker_run
 }
