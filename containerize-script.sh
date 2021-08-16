@@ -1,18 +1,12 @@
 #!/usr/bin/env bash
 
-# Containerizes and runs a shell script defined by CLI arg
+# Containerizes and runs any program in its smallest possible environment defined by CLI arg
 
 # TODO: add all scripts to github to be searched and pulled given appropriate input argument
-# TODO: parse script extension to build with appropriate base image
-#    i.e. use bash to make shell script containerization faster
-#         use
-
-
-
-# make 3rd input argument 'TRUE' to troubleshoot
-
+# TODO: set up argument parser
  
 # SETUP
+verbose=TRUE
 CURRENT_DIR=$(pwd)
 PATH_TO_SCRIPT="$CURRENT_DIR/$1"
 SCRIPT=$1
@@ -35,6 +29,7 @@ case $TYPE in
         ;;
     "js") 
         CMD_CMD="npm" && BASE_IMAGE="nginx"
+        ;;
     *)
         CMD_CMD="bash" && BASE_IMAGE="bash"
         ;;
